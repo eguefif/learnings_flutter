@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:chap2/start_button.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen(void Function() this.startQuiz, {super.key});
 
+  final void Function() startQuiz;
 
   final TextStyle textStyle = const TextStyle(
     color: Colors.white,
@@ -27,7 +28,7 @@ class StartScreen extends StatelessWidget {
             style: textStyle,
             ),
           const SizedBox(height: 20),
-          const StartButton(),
+          StartButton(startQuiz),
         ],
       ),
     );
