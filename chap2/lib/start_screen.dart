@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:chap2/start_button.dart';
 
-class QuizApp extends StatelessWidget {
-  const QuizApp({super.key});
+class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
 
 
   final TextStyle textStyle = const TextStyle(
-    color: Color.fromARGB(255, 188, 153, 233),
+    color: Colors.white,
     fontSize: 24,
   );
 
@@ -18,13 +18,16 @@ class QuizApp extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/quiz-logo.png',
-            width: 300),
+            width: 300,
+            color: const Color.fromARGB(150, 255, 255, 255),
+            ),
           const SizedBox(height: 40),
           Text(
             "Learn flutter the fun way!",
-            style: textStyle),
+            style: textStyle,
+            ),
           const SizedBox(height: 20),
-          const StartButton("start quiz"),
+          const StartButton(),
         ],
       ),
     );
