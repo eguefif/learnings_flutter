@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chap2/start_button.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen(void Function() this.startQuiz, {super.key});
+  const StartScreen(Function() this.startQuiz, {super.key});
 
   final void Function() startQuiz;
 
