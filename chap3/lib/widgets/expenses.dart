@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chap3/models/expense.dart';
 import 'package:chap3/widgets/expenses_list/expenses_list.dart';
 import 'package:chap3/widgets/new_expense.dart';
+import 'package:chap3/widgets/chart/chart.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -39,20 +40,22 @@ class _ExpenseState extends State<Expenses> {
     setState(() {
       _registeredExpenses.remove(expense);
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 3),
-        content: const Text("Expense delted"),
-        action: SnackBarAction(label: "Undo", onPressed: () {
-          setState(() {
-            _registeredExpenses.insert(expenseIndex, expense);
-          });
-        }),)
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 3),
+      content: const Text("Expense deleted"),
+      action: SnackBarAction(
+          label: "Undo",
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          }),
+    ));
   }
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(onExpense: _addExpense),
@@ -61,6 +64,7 @@ class _ExpenseState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     Widget mainContent =
         const Center(child: Text('No expenses found. Start adding some!'));
     if (_registeredExpenses.isNotEmpty) {
@@ -77,12 +81,23 @@ class _ExpenseState extends State<Expenses> {
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
         ],
       ),
-      body: Column(children: [
-        const Text("the chart"),
-        Expanded(
-          child: mainContent,
-        ),
-      ]),
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(expenses: _registeredExpenses),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(child: Chart(expenses: _registeredExpenses)),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
     );
   }
 }
